@@ -1,7 +1,8 @@
 import topology
 import search
+import node
 
-
+debug=False
 
 class Grid:
 	"""
@@ -23,26 +24,37 @@ class Grid:
 		self.node_present = [[False for i in range(0,column_length)] for j in range(0,row_length)]
 		self.column_length = column_length
 		self.row_length = row_length
-		self.node_list = []
+		self.node_list = ()
 
 
 	def get_node(self,coordinate):
-		x , y = coordinate
-			if self.grid[x][y] == 0:
-				if debug == True : print "No node present at",coordinate
-				return False
+		x,y = coordinate
+		if self.grid[x][y] == 0:
+			if debug == True : print "No node present at",coordinate
+			return False
 		return self.grid[x][y]
 
-	def initialize_node(self, node):
+	def place_node(self, node):
 		x,y = node.coordinate
+		# print "place",(x,y)
 		if self.node_present[x][y]:
 			if debug == True : print "Initialization Failed, Node already exists at", (x,y)
 			return False
 		else :
 			self.grid[x][y] = node
 			self.node_present[x][y] = True
-			self.node_list.append((x,y))
+			self.appendNodeList((x,y))
 		return True
+
+	def appendNodeList(self,coord):
+		self.node_list=list(self.node_list)
+		self.node_list.append(coord)
+		self.node_list=tuple(self.node_list)
+
+	def nodePresent(self,coord):
+		x,y = coord
+		return self.node_present[x][y]
+
 
 	def get_node_list(self):
 		return self.node_list
@@ -55,43 +67,22 @@ class Grid:
 
 
 	def __str__(self):
+		print "-"*self.column_length*10,'\n','\n'
 		for x in range(0,self.row_length):
+			for i in range(0,1): print '\t',
 			for y in range(0,self.column_length):
-				if self.node_present[self.row_length-1-x][self.column_length-1-y] == True:
-					print 'X',
+				if self.node_present[self.row_length-1-x][y] == True:
+					print 'X','\t',
 					if y == (self.column_length-1):
 						print '\n'
 				else :
+					print '-','\t',
 					if y == (self.column_length-1):
 						print '\n'
-					else :
-						print '-',
+		print "-"*self.column_length*10,'\n','\n'
 
 
 
-
-class Coordinate:
-
-	def __init__(self,Grid):
-		self.column = Grid.column_length
-		self.row = Grid.row_length
-
-	def generate_adjacent_nodes(self, coordinate):
-		x,y = coordinate
-		north = (x,y+1)
-		south = (x,y-1)
-		east  = (x+1,y)
-		west  = (x-1,y)
-		adjacent = [north,south,east,west]
-		adjacent_node = []
-		for each in adjacent :
-			if validate(each)==True:
-				adjacent_node.append(each)
-		return each
-
-
-
-class Graph:
 
 
 class Topologies:
@@ -103,7 +94,7 @@ class Topologies:
 	def __init__(self, Grid, set_topology='mesh' , origin=(0,0) , number_of_nodes = 0, nodeList = []) :
 		self.nodeList = nodeList
 		if set_topology not in dir(topology):
-			raise AttributeError, set_topology + " not found !"
+			raise AttributeError,(str(set_topology) + " not found !")
 		else :
 			getattr(topology,set_topology)(Grid , origin ,number_of_nodes, nodeList)
 		self.currentTopology = [set_topology]
@@ -128,7 +119,28 @@ class Topologies:
 
 
 
-		
+
+
+class Graph :
+
+	def __init__(self,Grid):
+		axis = util.Coordinate()
+
+
+
+
+
+g=Grid(6,4)
+t=Topologies(g,number_of_nodes=16)
+
+
+
+print "-"*100
+print g.node_list
+print "-"*100
+g.__str__()
+print node.Node.count
+
 
 
 
@@ -138,9 +150,9 @@ class Topologies:
 
 
 # define in node.py
-class Node:
+# class Node:
 
-self.node_count=0
+# self.node_count=0
 
 
 
