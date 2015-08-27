@@ -131,7 +131,7 @@ class Graph :
 
 
 g=Grid(6,4)
-t=Topologies(g,number_of_nodes=16)
+t=Topologies(g,number_of_nodes=32)
 
 
 
