@@ -30,25 +30,25 @@ class Node:
 			Node.count += 1
 			Node.node_dict[self.id] = self
 
-		self.coordinate = coordinate
-		self.neighbours = ()
-		self.state      = True
-		self.bufferSize = bufferSize
-		self.buffer     = util.BufferQueue(self.bufferSize)
+		self.coordinate  = coordinate
+		self.neighbours  = ()
+		self.state       = True
+		self.buffer_size = bufferSize
+		self.buffer      = util.BufferQueue(self.buffer_size)
 
-	def get_id(self):
+	def getId(self):
 		return self.id
 
-	def set_neighbours(self, neighbours):
+	def setNeighbours(self, neighbours):
 		self.neighbours = list(self.neighbours)
 		self.neighbours = neighbours
 		self.neighbours = tuple(self.neighbours)
 		if debug == True : print " Neighbours of",self.coordinate,' :',self.neighbours
 
-	def get_neighbours(self):
+	def getNeighbours(self):
 		return self.neighbours
 
-	def set_fault(self):
+	def setFault(self):
 		self.state = False
 
 

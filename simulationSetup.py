@@ -27,14 +27,14 @@ class Grid:
 		self.node_list = ()
 
 
-	def get_node(self,coordinate):
+	def getNode(self,coordinate):
 		x,y = coordinate
 		if self.grid[x][y] == 0:
 			if debug == True : print "No node present at",coordinate
 			return False
 		return self.grid[x][y]
 
-	def place_node(self, node):
+	def placeNode(self, node):
 		x,y = node.coordinate
 		# print "place",(x,y)
 		if self.node_present[x][y]:
@@ -56,7 +56,7 @@ class Grid:
 		return self.node_present[x][y]
 
 
-	def get_node_list(self):
+	def nodeList(self):
 		return self.node_list
 
 	def reset(self):
@@ -64,6 +64,9 @@ class Grid:
 		self.node_present = [[False for i in range(0,column_length)] for j in range(0,row_length)]
 		self.node_list = []
 		if debug == True : print "Grid Reset"
+
+	def dimensions(self):
+		return (self.row_length,self.column_length)
 
 
 	def __str__(self):
@@ -99,10 +102,10 @@ class Topologies:
 			getattr(topology,set_topology)(Grid , origin ,number_of_nodes, nodeList)
 		self.currentTopology = [set_topology]
 
-	def get_topology(self):
+	def getTopology(self):
 		return self.currentTopology
 
-	def add_topology(self, Grid, additionalTopology='mesh', origin=(0,0), number_of_nodes = 0, nodeList = []):
+	def addTopology(self, Grid, additionalTopology='mesh', origin=(0,0), number_of_nodes = 0, nodeList = []):
 		if additionalTopology not in dir(topology):
 			raise AttributeError, set_topology + " not found !"
 		else :
@@ -110,7 +113,7 @@ class Topologies:
 			if additionalTopology not in self.currentTopology:
 				self.currentTopology.append(additionalTopology)
 
-	def modify_topology(self, Grid, newTopology='mesh', origin=(0,0), number_of_nodes = 0, additionalNodeList=[]):
+	def modifyTopology(self, Grid, newTopology='mesh', origin=(0,0), number_of_nodes = 0, additionalNodeList=[]):
 		## modify current configuration to different configuration using self.nodeList
 		add_topology(Grid,self.currentTopology,origin,additionalNodeList)
 		self.currentTopology = [newTopology]
@@ -130,15 +133,18 @@ class Graph :
 
 
 
-g=Grid(6,4)
-t=Topologies(g,number_of_nodes=32)
-
-
-
-print "-"*100
-print g.node_list
-print "-"*100
+g=Grid(9,5)
+t=Topologies(g,number_of_nodes=35)
 g.__str__()
+t.addTopology(g,number_of_nodes=1)
+g.__str__()
+t.addTopology(g,number_of_nodes=3)
+g.__str__()
+
+# print "-"*100
+# print g.node_list
+# print "-"*100
+
 print node.Node.count
 
 

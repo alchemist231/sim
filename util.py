@@ -18,7 +18,7 @@ class Coordinate:
 		# print self.row,self.column
 		# print "-"*90
 
-	def generate_adjacent_coordinate(self, coordinate):
+	def generateAdjacentCoordinate(self, coordinate):
 		x,y = coordinate
 		north = (x,y+1)
 		south = (x,y-1)
@@ -49,12 +49,14 @@ class BufferQueue :
 		self.buffer = []
 
 	def push(self,value):
-		if self.buffer_full() :
+		if self.bufferFull() :
+			print "Current Buffer --> "
+			self.printBuffer()
 			raise BufferError("Buffer Overflow")
-		else :
+		elif value not in self.buffer :
 			self.buffer.insert(0,value)
 
-	def buffer_full(self):
+	def bufferFull(self):
 		return len(self.buffer) == self.buffer_size
 
 	def pop(self):
@@ -69,6 +71,11 @@ class BufferQueue :
 
 	def isEmpty(self):
 		return len(self.buffer) == 0
+
+	def printBuffer(self):
+		for each in self.buffer :
+			print each,
+
 
 
 
